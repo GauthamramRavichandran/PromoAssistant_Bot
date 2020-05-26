@@ -5,13 +5,15 @@ from telegram.utils.request import Request
 
 from const.con_classes import MQBot
 from const.CONFIG import PROMO_BOT_TKN, SERVER_IP_ADDR, PORT_NUM, NAME_OF_PEM_FILE, WEBHOOK_URL
-from my_handlers import promo_group_regstr_hndlr
+from my_handlers import promo_group_regstr_hndlr, cancel_hndlr, chnl_admin_registr_hndlr, config_hndlr, crt_promo_hndlr, \
+	dlt_promo_hndlr, settings_hndlr, shared_list_hndlr, strt_promo_hndlr
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR, filename = 'logs.log')
 
 logger = logging.getLogger(__name__)
-handlers_to_add = [promo_group_regstr_hndlr]
+handlers_to_add = [promo_group_regstr_hndlr, cancel_hndlr, chnl_admin_registr_hndlr, config_hndlr, crt_promo_hndlr, \
+                   dlt_promo_hndlr, settings_hndlr, shared_list_hndlr, strt_promo_hndlr]
 
 
 def main():
@@ -20,11 +22,11 @@ def main():
 	updater = Updater(bot = MQBot(token = PROMO_BOT_TKN, mqueue = q,
 	                              request = Request(con_pool_size = 10)))
 	
-	j = updater.job_queue
+	# j = updater.job_queue >>>>
 	dispatcher = updater.dispatcher
 	for hndlr in handlers_to_add:
 		dispatcher.add_handler(hndlr)
-	# dispatcher.add_handler(InlineQueryHandler(inlinequery))
+	# dispatcher.add_handler(InlineQueryHandler(inlinequery)) >>>>
 	# dispatcher.add_error_handler(error_handle)
 	
 	# Exceptional Case #
