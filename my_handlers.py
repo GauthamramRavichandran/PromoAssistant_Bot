@@ -17,9 +17,9 @@ promo_group_regstr_hndlr = ConversationHandler(
 	states = {
 		NAME: [MessageHandler(Filters.forwarded, getname)],
 		ADDG: [MessageHandler(Filters.text | Filters.forwarded, check_group)],
-		HEADER: [MessageHandler(Filters.text, set_header)],
-		FOOTTEXT: [MessageHandler(Filters.text, foottext)],
-		FOOTURL: [MessageHandler(Filters.text, footurl)]
+		HEADER: [MessageHandler(Filters.text & (~ Filters.command), set_header)],
+		FOOTTEXT: [MessageHandler(Filters.text & (~ Filters.command), foottext)],
+		FOOTURL: [MessageHandler(Filters.text & (~ Filters.command), footurl)]
 	},
 	fallbacks = [cancel_hndlr],
 	allow_reentry = True
@@ -32,17 +32,17 @@ settings_hndlr = ConversationHandler(
 		CHOICE: [MessageHandler(Filters.regex('.*Edit Header and Footer$'), group_commands),
 		         MessageHandler(Filters.regex('.*Add Group$'), add_group),
 		         MessageHandler(Filters.regex('.*Add Premium Channels$'), get_pre1_text)],
-		SELECT_GROUP: [MessageHandler(Filters.text, get_group)],
+		SELECT_GROUP: [MessageHandler(Filters.text & (~ Filters.command), get_group)],
 		ADDG: [MessageHandler(Filters.text | Filters.forwarded, check_group)],
-		HEADER: [MessageHandler(Filters.text, set_header)],
-		FOOTTEXT: [MessageHandler(Filters.text, foottext)],
-		FOOTURL: [MessageHandler(Filters.text, footurl)],
-		PRE1_TEXT: [MessageHandler(Filters.text, get_pre1_url)],
-		PRE1_URL: [MessageHandler(Filters.text, get_pre2_text)],
-		PRE2_TEXT: [MessageHandler(Filters.text, get_pre2_url)],
-		PRE2_URL: [MessageHandler(Filters.text, get_pre3_text)],
-		PRE3_TEXT: [MessageHandler(Filters.text, get_pre3_url)],
-		PRE3_URL: [MessageHandler(Filters.text, final_pre)]
+		HEADER: [MessageHandler(Filters.text & (~ Filters.command), set_header)],
+		FOOTTEXT: [MessageHandler(Filters.text & (~ Filters.command), foottext)],
+		FOOTURL: [MessageHandler(Filters.text & (~ Filters.command), footurl)],
+		PRE1_TEXT: [MessageHandler(Filters.text & (~ Filters.command), get_pre1_url)],
+		PRE1_URL: [MessageHandler(Filters.text & (~ Filters.command), get_pre2_text)],
+		PRE2_TEXT: [MessageHandler(Filters.text & (~ Filters.command), get_pre2_url)],
+		PRE2_URL: [MessageHandler(Filters.text & (~ Filters.command), get_pre3_text)],
+		PRE3_TEXT: [MessageHandler(Filters.text & (~ Filters.command), get_pre3_url)],
+		PRE3_URL: [MessageHandler(Filters.text & (~ Filters.command), final_pre)]
 	},
 	fallbacks=[cancel_hndlr],
 	allow_reentry=True
@@ -59,7 +59,7 @@ chnl_admin_registr_hndlr = ConversationHandler(
 	entry_points = [CommandHandler('start', start_register_1)],
 	states = {
 		FORWARD: [MessageHandler(Filters.forwarded, start_register_2)],
-		DESCR: [MessageHandler(Filters.text, start_register_3)],
+		DESCR: [MessageHandler(Filters.text & (~ Filters.command), start_register_3)],
 		CONFIRM: [CallbackQueryHandler(start_register_4)]
 	},
 	fallbacks = [cancel_hndlr],

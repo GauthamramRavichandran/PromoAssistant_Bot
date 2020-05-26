@@ -33,6 +33,7 @@ def main():
 	# dispatcher.add_handler(MessageHandler(Filters.text, exceptional))
 	updater.bot.set_my_commands([BotCommand('start', 'start the bot'),
 	                             BotCommand('getshared', '#shared of current promo'),
+	                             BotCommand('configure', 'get the grpid'),
 	                             BotCommand('cancel', 'stop current operation')])
 	
 	if SERVER_IP_ADDR:
