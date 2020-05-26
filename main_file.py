@@ -44,4 +44,5 @@ def main():
 		                        certificate = open(NAME_OF_PEM_FILE, 'rb'))
 	else:
 		updater.start_polling()
-		updater.idle()
+	
+	updater.idle()
