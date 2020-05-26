@@ -19,8 +19,7 @@ handlers_to_add = [promo_group_regstr_hndlr, cancel_hndlr, chnl_admin_registr_hn
 def main():
 	
 	q = mq.MessageQueue(all_burst_limit = 28, all_time_limit_ms = 3000)
-	updater = Updater(bot = MQBot(token = PROMO_BOT_TKN, mqueue = q,
-	                              request = Request(con_pool_size = 10)))
+	updater = Updater(bot = MQBot(token = PROMO_BOT_TKN, mqueue = q))
 	
 	# j = updater.job_queue >>>>
 	dispatcher = updater.dispatcher
