@@ -4,7 +4,7 @@ from telegram.utils.helpers import escape_markdown as e_m
 from backend.db_stats import get_stat_db
 from const.CONFIG import LOG_BOT_TKN, LOG_CHNL, SUPPORT_USERNAME
 from common.com_decorators import nogroup
-from common.com_kb_mks import kb_admins_markup, kbmenu_default_markup, page_2_markup, settings_menu_markup
+from common.com_kb_mks import kb_admins_markup, kbmenu_default_markup, settings_menu_markup
 from const.PROMO_CONSTS import CHOICE
 from common.com_bot_data import get_admins_list
 
@@ -52,8 +52,8 @@ def check_channel_admin(bot, botid, chnlid):
 		return True
 
 
-def page_2_menu(update, context):
-	context.bot.send_message(chat_id = update.message.chat.id, text = 'Next', reply_markup = page_2_markup)
+'''def page_2_menu(update, context):
+	context.bot.send_message(chat_id = update.message.chat.id, text = 'Next', reply_markup = page_2_markup)'''
 
 
 def how_to(update, context):
