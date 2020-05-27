@@ -21,10 +21,12 @@ def load_bot_data_db():
 				channel_list.append(i.get('channel id'))
 			if i.get('_id') not in admins_list:
 				admins_list.append(i.get('_id'))
+			print(i)
 			grps = i.get('groups')
-			for grp in grps:
-				if grp not in groups_list:
-					groups_list.append(grp)
+			if grps and grps[0]:
+				for grp in grps:
+					if grp not in groups_list:
+						groups_list.append(grp)
 
 	for k in banned_find:
 		if k is not None:
