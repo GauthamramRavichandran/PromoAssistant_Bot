@@ -6,7 +6,7 @@ from admins.ad_register import register, getname, check_group, set_header, foott
 	get_pre1_text, get_pre1_url, get_pre2_text, get_pre2_url, get_pre3_text, get_pre3_url, final_pre, add_group, \
 	group_commands, settings, get_group
 from ch_admins.ch_register import start_register_1, start_register_2, start_register_3, start_register_4
-from common.com_callbacks import cancel, how_to
+from common.com_callbacks import cancel, how_to, get_statistics
 from const.PROMO_CONSTS import CONFIRMDELETE, NAME, ADDG, HEADER, FOOTTEXT, FOOTURL, CONFIRM, DESCR, FORWARD, PRE1_TEXT, \
 	PRE1_URL, PRE2_TEXT, PRE2_URL, PRE3_TEXT, PRE3_URL, CHOICE, SELECT_GROUP
 
@@ -53,7 +53,7 @@ crt_promo_hndlr = MessageHandler(Filters.regex('^Create list$'), create_list_pro
 dlt_promo_hndlr = MessageHandler(Filters.regex('^Delete list$'), delete_list_promo)
 shared_list_hndlr = CommandHandler('getshared', get_shared)
 config_hndlr = CommandHandler('configure', configure_ck)
-
+stat_hndler = MessageHandler(Filters.regex('.*Statistics'), get_statistics)
 
 chnl_admin_registr_hndlr = ConversationHandler(
 	entry_points = [CommandHandler('start', start_register_1)],

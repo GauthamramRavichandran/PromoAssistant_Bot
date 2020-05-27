@@ -6,14 +6,14 @@ from telegram.utils.request import Request
 from const.con_classes import MQBot
 from const.CONFIG import PROMO_BOT_TKN, SERVER_IP_ADDR, PORT_NUM, NAME_OF_PEM_FILE, WEBHOOK_URL
 from my_handlers import promo_group_regstr_hndlr, cancel_hndlr, chnl_admin_registr_hndlr, config_hndlr, crt_promo_hndlr, \
-	dlt_promo_hndlr, settings_hndlr, shared_list_hndlr, strt_promo_hndlr, how_to_hndlr
+	dlt_promo_hndlr, settings_hndlr, shared_list_hndlr, strt_promo_hndlr, how_to_hndlr, stat_hndler
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR, filename = 'logs.log')
 
 logger = logging.getLogger(__name__)
 handlers_to_add = [promo_group_regstr_hndlr, cancel_hndlr, chnl_admin_registr_hndlr, config_hndlr, crt_promo_hndlr, \
-                   dlt_promo_hndlr, settings_hndlr, shared_list_hndlr, strt_promo_hndlr, how_to_hndlr]
+                   dlt_promo_hndlr, settings_hndlr, shared_list_hndlr, strt_promo_hndlr, how_to_hndlr, stat_hndler]
 
 
 def main():

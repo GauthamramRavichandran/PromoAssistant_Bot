@@ -26,13 +26,14 @@ yes_no_ban = [[InlineKeyboardButton(f'{e_yes}Yes', callback_data = 'bannedlist_1
                InlineKeyboardButton(f'{e_no}No', callback_data = 'bannedlist_0')]]
 yes_no_ban_mk = InlineKeyboardMarkup(yes_no_ban)
 
-kbmenu_default = [[KeyboardButton(f'Register for PromoGroup Admins')],
-#, KeyboardButton('Statistics')], >>>
+kbmenu_default = [[KeyboardButton(f'Register for PromoGroup Admins'),
+										KeyboardButton('Statistics')],
 									[KeyboardButton(f'{e_confused}How to')]]
 kbmenu_default_markup = ReplyKeyboardMarkup(kbmenu_default, resize_keyboard=True, one_time_keyboard=True)
 
 kb_admins = [[KeyboardButton('Open Registrations')],
-             [KeyboardButton('Create list'), KeyboardButton('Delete list')]]
+             [KeyboardButton('Create list'), KeyboardButton('Delete list')],
+             [KeyboardButton('Statistics'), KeyboardButton(f'{e_wrench}Settings')]]
 kb_admins_markup = ReplyKeyboardMarkup(kb_admins, resize_keyboard = True, one_time_keyboard = True)
 
 '''page_2 = [[KeyboardButton(f'{e_wrench}Settings'), KeyboardButton('Bot Stats')],
