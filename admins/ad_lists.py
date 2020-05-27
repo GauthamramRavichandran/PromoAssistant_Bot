@@ -79,11 +79,11 @@ def create_list(update: Update, context):
 						        f"\n\t\t\t\t\t\t*{chnl_list[n].get('description')}*\n\n"
 						n += 1
 					
-					if admin_info['premium_1']:
+					if admin_info.get('premium_1', []):
 						post += f"\n\t[{admin_info['premium_1']['text']}]({admin_info['premium_1']['url']})"
-						if admin_info['premium_2']:
+						if admin_info.get('premium_2', []):
 							post += f"\t|\t[{admin_info['premium_2']['text']}]({admin_info['premium_2']['url']})"
-							if admin_info['premium_3']:
+							if admin_info.get('premium_3', []):
 								post += f"\t|\t[{admin_info['premium_3']['text']}]({admin_info['premium_3']['url']})"
 					grpname = context.bot.get_chat(chat_id = grp).title
 					post += f"\n{e_m(10*'━━')}\n[{footer['text']}]({footer['url']})"
