@@ -147,7 +147,7 @@ def get_shared(update, context):
 		context.bot.send_message(text = 'OOPS! No one shared the list yet', chat_id = update.message.chat.id,
 		                        reply_to_message_id = update.message.message_id, parse_mode = 'Markdown')
 
-
+# TODO get unshared list and send to admin. this function deeltes only if shared
 def delete_lists(update, context):
 	admin_info = get_admin_db(update.effective_user.id)
 	for grp in admin_info['groups']:

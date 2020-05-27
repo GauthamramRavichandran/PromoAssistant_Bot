@@ -34,9 +34,11 @@ def create_list_promo( update: Update, context ):
 	else:
 		if valid_create_list(admin_info['groups']):
 			update.effective_message.reply_text("Gimme a minute, I'm creating the lists for you")
-			create_list(update, context)
-			change_grp_status_db(admin_info['groups'], STATUS.LIST_PUBLISHED)
-			update.effective_message.reply_text("Shared the lists in channel")
+			if create_list(update, context):
+				change_grp_status_db(admin_info['groups'], STATUS.LIST_PUBLISHED)
+				update.effective_message.reply_text("Shared the lists in channel")
+			else:
+				update.effective_message.reply_text("We're facing some difficulties in creating the lists")
 		else:
 			update.effective_message.reply_text("Current status of your groups doesn't allow creating list"
 			                                    "\nIt's either new (or) previous list is not deleted (or) not started registration")

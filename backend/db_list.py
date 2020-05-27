@@ -35,11 +35,12 @@ def update_shared_db(chnlid, msgid, time = datetime.now().replace(tzinfo = None)
 	except Exception as e:
 		print(f'IN Update Shared\n{e}')
 		
+		
 def reset_registrations_db(adminid, grps):
 	chnlid = get_admin_db(adminid).get('channel id')
 	coll = db[chnlid]
 	for grp in grps:
 		coll.update_many({'in group': grp}, {'$set': {'eligible': 0, 'shared on': None, 'msgid': None}})
-		coll.update_many({'in group': grp, 'permanent': 1}, {'$set': {'eligible': 1}})
+		# coll.update_many({'in group': grp, 'permanent': 1}, {'$set': {'eligible': 1}})
 	db.statistics.update_one({'_id': 0},
 	                         {'$inc': {'Total Promos Done': len(grps)}})

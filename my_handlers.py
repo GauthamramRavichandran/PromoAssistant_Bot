@@ -47,6 +47,7 @@ settings_hndlr = ConversationHandler(
 	fallbacks=[cancel_hndlr],
 	allow_reentry=True
 )
+menu_hndlr = MessageHandler(Filters.regex('.*Menu$'), start_register_1)
 how_to_hndlr = MessageHandler(Filters.regex('.*How to$'), how_to)
 strt_promo_hndlr = MessageHandler(Filters.regex('^Open Registrations$'), start_regstr_promo)
 crt_promo_hndlr = MessageHandler(Filters.regex('^Create list$'), create_list_promo)
