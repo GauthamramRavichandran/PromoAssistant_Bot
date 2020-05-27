@@ -16,10 +16,10 @@ promo_group_regstr_hndlr = ConversationHandler(
 	entry_points = [MessageHandler(Filters.regex('Register for PromoGroup Admins'), register)],
 	states = {
 		NAME: [MessageHandler(Filters.forwarded, getname)],
-		ADDG: [MessageHandler(Filters.text | Filters.forwarded, check_group)],
-		HEADER: [MessageHandler(Filters.text & (~ Filters.command), set_header)],
-		FOOTTEXT: [MessageHandler(Filters.text & (~ Filters.command), foottext)],
-		FOOTURL: [MessageHandler(Filters.text & (~ Filters.command), footurl)]
+		ADDG: [MessageHandler((Filters.text | Filters.forwarded) & ~Filters.command, check_group)],
+		HEADER: [MessageHandler(Filters.text & (~Filters.command), set_header)],
+		FOOTTEXT: [MessageHandler(Filters.text & (~Filters.command), foottext)],
+		FOOTURL: [MessageHandler(Filters.text & (~Filters.command), footurl)]
 	},
 	fallbacks = [cancel_hndlr],
 	allow_reentry = True
