@@ -115,7 +115,7 @@ def create_list(update: Update, context):
 							sleep(0.2)  # Cooldown, prevents flooding
 					if len(failed) > 80:
 						context.bot.send_message(text = failed, chat_id = grp)
-			log_this(f" List created for the admin {admin_info['adminid']}\n{admin_info['channel username']}")
+			log_this(f" List created for the admin {admin_info['_id']}\n{admin_info['channel username']}")
 		else:
 			context.bot.send_message(text = "You don't have any groups registered", chat_id = update.effective_user.id)
 	except Exception as e:
