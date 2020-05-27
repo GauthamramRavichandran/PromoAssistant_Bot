@@ -12,7 +12,7 @@ from validation.v_ad_promo import valid_open_regstr, valid_create_list, valid_de
 
 def start_regstr_promo(update: Update, context):
 	admin_info = get_admin_db(update.effective_user.id)
-	if admin_info.get('groups', []):
+	if not admin_info.get('groups', []):
 		update.effective_message.reply_text("You don't have any groups registered with us")
 	else:
 		if valid_open_regstr(admin_info['groups']):
@@ -29,7 +29,7 @@ def start_regstr_promo(update: Update, context):
 
 def create_list_promo( update: Update, context ):
 	admin_info = get_admin_db(update.effective_user.id)
-	if admin_info.get('groups', []):
+	if not admin_info.get('groups', []):
 		update.effective_message.reply_text("You don't have any groups registered with us")
 	else:
 		if valid_create_list(admin_info['groups']):
@@ -44,7 +44,7 @@ def create_list_promo( update: Update, context ):
 
 def delete_list_promo(update: Update, context):
 	admin_info = get_admin_db(update.effective_user.id)
-	if admin_info.get('groups', []):
+	if not admin_info.get('groups', []):
 		update.effective_message.reply_text("You don't have any groups registered with us")
 	else:
 		if valid_del_list(admin_info['groups']):
