@@ -1,6 +1,6 @@
 import logging
 from telegram import BotCommand
-from telegram.ext import Updater, messagequeue as mq
+from telegram.ext import Updater, messagequeue as mq, PicklePersistence
 from telegram.utils.request import Request
 
 from common.com_bot_data import load_db_to_bot
@@ -18,10 +18,10 @@ handlers_to_add = [promo_group_regstr_hndlr, cancel_hndlr, chnl_admin_registr_hn
 
 
 def main():
-	
+	my_persistence = PicklePersistence(filename = 'pickle_promo')
 	q = mq.MessageQueue(all_burst_limit = 28, all_time_limit_ms = 3000)
 	updater = Updater(bot = MQBot(token = PROMO_BOT_TKN, mqueue = q,
-	                              request = Request(con_pool_size = 10)), use_context = True)
+	                              request = Request(con_pool_size = 10)), use_context = True, persistence = my_persistence)
 	
 	# j = updater.job_queue >>>>
 	dispatcher = updater.dispatcher
