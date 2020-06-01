@@ -37,11 +37,11 @@ def create_list(update: Update, context):
 				chnl_list = []
 				for j in chnls:
 					chnl_list.append(j)
-				chnl_list.sort(key = lambda x: x.get('members count'), reverse = True)
 				if not chnl_list:
 					context.bot.send_message(text = f"No Channels registered for the group {grp_info['name']}",
 					                         chat_id = admin_info['_id'])
 					continue
+				chnl_list.sort(key = lambda x: x.get('members count'), reverse = True)
 				
 				#################################
 				''' List Creation Logic  '''
@@ -65,7 +65,7 @@ def create_list(update: Update, context):
 				num2 = num+1
 				n = 0
 				emoticon_1 = choice(list_emojis)
-				for g in range(quotient):
+				for g in range(quotient-1):
 					post = f'*'+e_m(str(header))+'*\n'+e_m(10*'━━')+'\n\n'
 					if not remain:
 						num2 = num
@@ -88,7 +88,7 @@ def create_list(update: Update, context):
 					grpname = context.bot.get_chat(chat_id = grp).title
 					post += f"\n{e_m(10*'━━')}\n[{footer['text']}]({footer['url']})"
 					kb = [[InlineKeyboardButton(text = grpname, callback_data = 'prbt_1')],
-					      [InlineKeyboardButton(text = 'Created by this bot', url = context.bot.get_me().link)]]
+					      [InlineKeyboardButton(text = 'Created by this bot', url = context.bot.link)]]
 					context.bot.send_message(text = post, chat_id = admin_info['channel id'], parse_mode = 'Markdown',
 					                         reply_markup = InlineKeyboardMarkup(kb), disable_web_page_preview = True)
 					list_id = get_next_list_num_db()['Total Lists Created']
@@ -113,10 +113,10 @@ def create_list(update: Update, context):
 						except:
 							failed += f"{to_send[chnl]}\n"
 							sleep(0.2)  # Cooldown, prevents flooding
-					if len(failed) > 80:
+					if len(failed) > 60:
 						context.bot.send_message(text = failed, chat_id = grp)
 			log_this(f" List created for the admin {admin_info['_id']}\n{admin_info['channel username']}")
-		else:
+		if not admin_info['groups']:
 			context.bot.send_message(text = "You don't have any groups registered", chat_id = update.effective_user.id)
 	except Exception as e:
 		context.bot.send_message(chat_id = update.effective_user.id, text = f"Error occurred during list creation, \n\n{e}",

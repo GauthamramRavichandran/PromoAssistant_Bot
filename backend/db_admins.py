@@ -15,7 +15,7 @@ def insert_admin_db(adminid: int, username, chnlid: str, chnlname, chnlusername)
 		print(str(e))
 
 
-def insert_premium_chnls_db(adminid: int, user_data, num):
+def insert_premium_chnls_db(adminid: int, user_data, num: int):
 	if num == 1:
 		db.admins.update_one({'_id': adminid},
 		                     {'$set': {'premium_1': {'text': user_data['pre1_text'],
@@ -38,3 +38,17 @@ def get_admin_db( adminid: int = None ):
 
 def update_pymnt_admin_db(adminid: int, paid: bool):
 	db.admins.update_one({"_id": adminid}, {'$set': {'paid': paid}})
+
+
+def insert_temp_admin_db(adminid: int):
+	db.temp_admins.insert_one({'_id': adminid})
+
+
+def get_temp_admin_db(adminid: int = None):
+	if adminid:
+		return db.temp_admins.find_one({'_id': adminid})
+	return db.temp_admins.find()
+
+
+def del_temp_admin_db(adminid: int):
+	db.temp_admins.remove_one({'_id': adminid})

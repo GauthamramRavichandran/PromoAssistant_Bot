@@ -105,6 +105,7 @@ def start_register_4(update, context):
 		                         disable_notification = True, disable_web_page_preview = True)
 		return cancel(update, context)
 	else:
+		query.message.edit_reply_markup(reply_markup = None)
 		update.effective_message.reply_text('Ohk! You have cancelled the submission.'
 		                                    '\n\nTo register again, open the register link from the group')
 		return ConversationHandler.END
