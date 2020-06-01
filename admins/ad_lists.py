@@ -65,7 +65,7 @@ def create_list(update: Update, context):
 				num2 = num+1
 				n = 0
 				emoticon_1 = choice(list_emojis)
-				for g in range(quotient-1):
+				for g in range(quotient):
 					post = f'*'+e_m(str(header))+'*\n'+e_m(10*'━━')+'\n\n'
 					if not remain:
 						num2 = num
