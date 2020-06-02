@@ -2,7 +2,7 @@ from re import search
 from telegram import ReplyKeyboardRemove, MessageEntity, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler
 
-from backend.db_admins import insert_admin_db, get_admin_db
+from backend.db_admins import insert_admin_db, get_admin_db, del_temp_admin_db
 from backend.db_grps import update_groups_db, get_groupinfo_db
 from backend.db_admins import insert_premium_chnls_db, get_temp_admin_db
 
@@ -10,7 +10,7 @@ from common.com_bot_data import get_admins_list, get_chnls_list, append_admins, 
 	get_grps_list, append_grps
 from common.com_callbacks import log_this, j_delete_msg, cancel
 from common.com_decorators import nogroup
-from common.com_kb_mks import reset_markup, cancel_markup, kbmenu_markup, settings_menu_markup
+from common.com_kb_mks import reset_markup, cancel_markup, kbmenu_markup, settings_menu_markup, contact_us_markup
 
 from const.con_classes import ValidationError
 from const.con_my_emojis import e_info, e_confused, e_success
@@ -26,12 +26,15 @@ def register(update, context):
 		                          f'{e_info}PS. If you send "Reset All", everything will be deleted, '
 		                          f'no confirmations will be asked', reply_markup=reset_markup)
 		return CONFIRMDELETE
-	if not get_admin_db(update.effective_user.id):
-		update.effective_message.reply_text("You can't register, pls confirm with @ys0serious that you have a promogroup."
-		                                    "\nSo that I can let you register")
+	elif update.effective_user.id not in get_temp_admin_db(update.effective_user.id):
+		update.effective_message.reply_text("We currently allow only selected candidates to be registered."
+		                                    "\nContact the developer if you have promogroup",
+		                                    reply_markup = contact_us_markup)
 		return ConversationHandler.END
-	update.message.reply_text('We can begin the registration process right away')
-	context.bot.send_message(text = e_info+'Forward a message/post from your promotions channel',
+	update.message.reply_text('We can begin the registration process right away. '
+	                          '\nHang tight! This is a bit lengthy process and one-time setup')
+	context.bot.send_message(text = e_info+'Forward a message/post from your promotions channel'
+	                                       '(main channel of your PromoGroup, often the one where you posts the lists in.)',
 	                         chat_id = update.effective_user.id, reply_markup=cancel_markup)
 	return NAME
 

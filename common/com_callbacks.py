@@ -1,10 +1,11 @@
 from telegram import Bot
 from telegram.utils.helpers import escape_markdown as e_m
 
+from backend.db_admins import get_temp_admin_db
 from backend.db_stats import get_stat_db
 from const.CONFIG import LOG_BOT_TKN, LOG_CHNL, SUPPORT_USERNAME
 from common.com_decorators import nogroup
-from common.com_kb_mks import kb_admins_markup, kbmenu_default_markup, settings_menu_markup
+from common.com_kb_mks import kb_admins_markup, kbmenu_default_markup, settings_menu_markup, contact_us_markup
 from const.PROMO_CONSTS import CHOICE
 from common.com_bot_data import get_admins_list
 
@@ -14,11 +15,15 @@ def menu(update, context):
 	try:
 		if update.effective_user.id in get_admins_list(context):
 			
-			context.bot.send_message(chat_id = update.message.chat.id, text = "Menu",
+			context.bot.send_message(chat_id = update.effective_user.id, text = "Menu",
 			                         reply_markup = kb_admins_markup)
+		elif update.effective_user.id in get_temp_admin_db(update.effective_user.id):
+			update.effective_message.reply_text('Complete the registration first to get the Menu')
 		else:
-			context.bot.send_message(chat_id = update.message.chat.id, text = 'Menu',
-			                         reply_markup = kbmenu_default_markup)
+			update.effective_message.reply_text("We currently allow only *selected candidates* to be registered."
+			                                    "\nContact the developer if you have promogroup"
+			                                    "\n\nPS. If you don't know what is a promogroup, then kindly *donot* contact us",
+			                                    reply_markup = contact_us_markup)
 	
 	except Exception as e:
 		print(str(e))

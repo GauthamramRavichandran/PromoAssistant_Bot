@@ -10,6 +10,8 @@ from common.com_callbacks import cancel, how_to, get_statistics
 from const.PROMO_CONSTS import CONFIRMDELETE, NAME, ADDG, HEADER, FOOTTEXT, FOOTURL, CONFIRM, DESCR, FORWARD, PRE1_TEXT, \
 	PRE1_URL, PRE2_TEXT, PRE2_URL, PRE3_TEXT, PRE3_URL, CHOICE, SELECT_GROUP
 
+from dev.dev_ins_admin import activate_pre_ck, get_userid_from_forwrd
+
 cancel_hndlr = CommandHandler('cancel', cancel)
 
 promo_group_regstr_hndlr = ConversationHandler(
@@ -72,3 +74,13 @@ chnl_admin_registr_hndlr = ConversationHandler(
 	persistent = True,
 	name = 'channel register conv.'
 )
+
+ins_premium_conv_hndlr = ConversationHandler(
+	entry_points = [CommandHandler('insert', get_userid_from_forwrd)],
+	states = {
+		FORWARD : [MessageHandler(Filters.forwarded, activate_pre_ck)]
+	},
+	fallbacks = [cancel_hndlr],
+	allow_reentry = True,
+	persistent = True,
+	name = 'Premium conv.')

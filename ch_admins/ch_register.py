@@ -2,14 +2,15 @@ from telegram import ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ConversationHandler
 from telegram.utils.helpers import escape_markdown as e_m
 
+from backend.db_admins import get_temp_admin_db
 from backend.db_chnls import add_new_channel_db
 from backend.db_grps import get_groupinfo_db
 
 from common.com_bot_data import get_admins_list
 from common.com_callbacks import cancel
+from common.com_kb_mks import confirm_mk, cancel_markup, kbmenu_default_markup, kb_admins_markup, contact_us_markup
 from const.CONFIG import MY_ID, DESCR_LIMIT
 from const.PROMO_CONSTS import DESCR, CONFIRM, FORWARD
-from common.com_kb_mks import confirm_mk, cancel_markup, kbmenu_default_markup, kb_admins_markup
 from const.con_my_emojis import e_trophy
 from const.con_classes import ValidationError
 ''' f'\n\nFormat :: \n#new | @Chnlname | Description here | Invitelink here', '''
@@ -41,12 +42,17 @@ def start_register_1(update, context):
 	
 	else:
 		if update.effective_user.id in get_admins_list(context):
-			update.effective_message.reply_text("Hey there. Admin menu,", reply_markup = kb_admins_markup)
-		else:
+			update.effective_message.reply_text(f"Hey there, {update.effective_user.first_name}", reply_markup = kb_admins_markup)
+		elif update.effective_user.id in get_temp_admin_db(update.effective_user.id):
 			context.bot.send_message(text = "Hi! I'm your PromoAssistant\nI can help the admins of promogroup",
 		                           chat_id = update.message.chat.id, reply_markup = kbmenu_default_markup)
-
-
+		else:
+			update.effective_message.reply_text("We currently allow only *selected candidates* to be registered."
+			                                    "\nContact the developer if you have promogroup"
+			                                    "\n\nPS. If you don't know what is a promogroup, then kindly *donot* contact us",
+			                                    reply_markup = contact_us_markup)
+			
+			
 def start_register_2(update, context):
 	try:
 		if update.message.forward_from_chat.type != 'channel':
