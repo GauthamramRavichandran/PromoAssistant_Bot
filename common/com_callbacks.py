@@ -23,7 +23,7 @@ def menu(update, context):
 			update.effective_message.reply_text("We currently allow only *selected candidates* to be registered."
 			                                    "\nContact the developer if you have promogroup"
 			                                    "\n\nPS. If you don't know what is a promogroup, then kindly *donot* contact us",
-			                                    reply_markup = contact_us_markup)
+			                                    reply_markup = contact_us_markup, parse_mode = 'Markdown')
 	
 	except Exception as e:
 		print(str(e))

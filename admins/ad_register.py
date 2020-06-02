@@ -29,7 +29,7 @@ def register(update, context):
 	elif get_temp_admin_db(update.effective_user.id) is None:
 		update.effective_message.reply_text("We currently allow only selected candidates to be registered."
 		                                    "\nContact the developer if you have promogroup",
-		                                    reply_markup = contact_us_markup)
+		                                    reply_markup = contact_us_markup, parse_mode = 'Markdown')
 		return ConversationHandler.END
 	update.message.reply_text('We can begin the registration process right away. '
 	                          '\nHang tight! This is a bit lengthy process and one-time setup')
