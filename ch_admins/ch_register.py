@@ -43,7 +43,7 @@ def start_register_1(update, context):
 	else:
 		if update.effective_user.id in get_admins_list(context):
 			update.effective_message.reply_text(f"Hey there, {update.effective_user.first_name}", reply_markup = kb_admins_markup)
-		elif update.effective_user.id in get_temp_admin_db(update.effective_user.id):
+		elif get_temp_admin_db(update.effective_user.id):
 			context.bot.send_message(text = "Hi! I'm your PromoAssistant\nI can help the admins of promogroup",
 		                           chat_id = update.message.chat.id, reply_markup = kbmenu_default_markup)
 		else:

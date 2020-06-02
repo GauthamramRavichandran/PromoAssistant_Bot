@@ -17,7 +17,7 @@ def menu(update, context):
 			
 			context.bot.send_message(chat_id = update.effective_user.id, text = "Menu",
 			                         reply_markup = kb_admins_markup)
-		elif update.effective_user.id in get_temp_admin_db(update.effective_user.id):
+		elif get_temp_admin_db(update.effective_user.id):
 			update.effective_message.reply_text('Complete the registration first to get the Menu')
 		else:
 			update.effective_message.reply_text("We currently allow only *selected candidates* to be registered."

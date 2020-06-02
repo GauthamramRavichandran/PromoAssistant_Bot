@@ -26,7 +26,7 @@ def register(update, context):
 		                          f'{e_info}PS. If you send "Reset All", everything will be deleted, '
 		                          f'no confirmations will be asked', reply_markup=reset_markup)
 		return CONFIRMDELETE
-	elif update.effective_user.id not in get_temp_admin_db(update.effective_user.id):
+	elif get_temp_admin_db(update.effective_user.id) is None:
 		update.effective_message.reply_text("We currently allow only selected candidates to be registered."
 		                                    "\nContact the developer if you have promogroup",
 		                                    reply_markup = contact_us_markup)
