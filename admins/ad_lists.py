@@ -17,6 +17,7 @@ from const.con_my_emojis import e_star, e_tada, e_sparkles, e_dizzy, e_point_rig
 e_sunny, e_globe, e_zap, e_moon, e_speaker, e_name_badge, e_spades, e_radio_button,\
 e_gem, e_beginner, e_new
 from const.CONFIG import MIN_CHNLS_PER_LIST
+from const.con_texts import pub_pin_tx
 
 list_emojis = [e_star, e_tada, e_sparkles, e_dizzy, e_point_right, e_large_blue_diamond, e_sunny, e_globe,
                e_zap, e_moon, e_speaker, e_name_badge, e_spades, e_gem, e_beginner, e_radio_button, e_new]
@@ -35,8 +36,8 @@ def create_list(update: Update, context):
 				footer = grp_info['footer']
 				chnls = reg_channels_db(adminid = update.effective_user.id, groupid = grp)
 				chnl_list = []
-				for j in chnls:
-					chnl_list.append(j)
+				for chnl in chnls:
+					chnl_list.append(chnl)
 				if not chnl_list:
 					context.bot.send_message(text = f"No Channels registered for the group {grp_info['name']}",
 					                         chat_id = admin_info['_id'])
@@ -89,14 +90,18 @@ def create_list(update: Update, context):
 					post += f"\n{e_m(10*'━━')}\n[{footer['text']}]({footer['url']})"
 					kb = [[InlineKeyboardButton(text = grpname, callback_data = 'prbt_1')],
 					      [InlineKeyboardButton(text = 'Created by this bot', url = context.bot.link)]]
-					context.bot.send_message(text = post, chat_id = admin_info['channel id'], parse_mode = 'Markdown',
+					list_link = context.bot.send_message(text = post, chat_id = admin_info['channel id'], parse_mode = 'Markdown',
 					                         reply_markup = InlineKeyboardMarkup(kb), disable_web_page_preview = True)
+					if str(type(list_link)).endswith("Promise'>"):
+						list_link = list_link.result()
+					context.user_data['list_link'] = list_link.link
 					list_id = get_next_list_num_db()['Total Lists Created']
 					insert_list_db(list_id = list_id, grpname = grp_info['name'], text = post)
 					to_chnl = f"List {g + 1}\n" \
 					          f"\t\t⏩ `@PromoAssistant_bot {list_id}`\n\n\t"
 					to_chnl += '\n\t'.join(e_m(v) for v in to_send.values())
 					context.bot.send_message(chat_id = admin_info['channel id'], text = to_chnl, parse_mode = 'Markdown')
+					
 					failed = 'Auto-Posting failed in these Channels::\nShare the list manually\n\n'
 					for chnl in to_send.keys():
 						try:
@@ -115,6 +120,8 @@ def create_list(update: Update, context):
 							sleep(0.2)  # Cooldown, prevents flooding
 					if len(failed) > 60:
 						context.bot.send_message(text = failed, chat_id = grp)
+			context.bot.send_message(text = pub_pin_tx.replace('||', context.user_data['list_link']), chat_id = grp,
+			                         disable_web_page_preview = True)
 			log_this(f" List created for the admin {admin_info['_id']}\n{admin_info['channel username']}")
 		if not admin_info['groups']:
 			context.bot.send_message(text = "You don't have any groups registered", chat_id = update.effective_user.id)
@@ -152,7 +159,7 @@ def delete_lists(update, context):
 	admin_info = get_admin_db(update.effective_user.id)
 	for grp in admin_info['groups']:
 		to_delete = check_shared_db(chnlid = admin_info['channel id'], grpid = grp)
-		failed = f'Deletion Failed:\n\n'
+		failed = f'Deletion Failed:\n'
 		if to_delete:
 			for chnl in to_delete:
 				try:
@@ -160,9 +167,11 @@ def delete_lists(update, context):
 					sleep(0.1)
 				except Exception as e :
 					failed += f"\n{chnl['name']} - {e}"
-			if len(failed) > 30:
+			if len(failed) > 20:
 				context.bot.send_message(chat_id = grp, text = failed)
 			else:
 				context.bot.send_message(chat_id = grp,
 				                         text = f'All lists deleted successfully')
+		else:
+			update.message.reply_text(f'No one shared the lists in group ({get_groupinfo_db(grp).get("name", "")})')
 	reset_registrations_db(update.effective_user.id, admin_info['groups'])

@@ -4,7 +4,7 @@ from telegram.ext import ConversationHandler
 
 from backend.db_admins import insert_admin_db, get_admin_db
 from backend.db_grps import update_groups_db, get_groupinfo_db
-from backend.db_admins import insert_premium_chnls_db
+from backend.db_admins import insert_premium_chnls_db, get_temp_admin_db
 
 from common.com_bot_data import get_admins_list, get_chnls_list, append_admins, append_chnl, \
 	get_grps_list, append_grps
@@ -26,6 +26,10 @@ def register(update, context):
 		                          f'{e_info}PS. If you send "Reset All", everything will be deleted, '
 		                          f'no confirmations will be asked', reply_markup=reset_markup)
 		return CONFIRMDELETE
+	if not get_admin_db(update.effective_user.id):
+		update.effective_message.reply_text("You can't register, pls confirm with @ys0serious that you have a promogroup."
+		                                    "\nSo that I can let you register")
+		return ConversationHandler.END
 	update.message.reply_text('We can begin the registration process right away')
 	context.bot.send_message(text = e_info+'Forward a message/post from your promotions channel',
 	                         chat_id = update.effective_user.id, reply_markup=cancel_markup)
