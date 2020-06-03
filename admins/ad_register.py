@@ -202,12 +202,12 @@ def footurl(update, context):
 		         f"\nFooter :: {user_data['text']}"
 		         f"\nURL :: {user_data['url']}")
 		if user_data.get('edit', None):
-			update.message.reply_text('Footer edited successfully', reply_markup=kbmenu_markup)
+			update.message.reply_text('Footer edited successfully')
 			del user_data['edit']
 			return cancel(update, context)
 		update.message.reply_text('Footer added successfully')
-		update.message.reply_text('Next Group')
-		return add_group(update, context)
+		#update.message.reply_text('Next Group')
+		return cancel(update, context)
 	except ValidationError as f:
 		update.message.reply_text(f'Error :: {f}')
 	except Exception as e:
@@ -216,7 +216,7 @@ def footurl(update, context):
 
 def get_pre1_text(update, context):
 	update.message.reply_text('Premium users can add upto 3 premium channels\nFree users can add only one premium channel')
-	update.message.reply_text('Now, Send the text of the Premium-1 Channel')
+	update.message.reply_text('Now, Send the text of the Premium-1 Channel', reply_markup = ReplyKeyboardRemove())
 	return PRE1_TEXT
 
 
