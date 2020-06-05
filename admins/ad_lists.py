@@ -2,12 +2,16 @@ from random import choice
 from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.utils.helpers import escape_markdown as e_m
 from telegram.ext.dispatcher import run_async
+from telegram import InlineQueryResultCachedPhoto, InlineQueryResultArticle, \
+	InputTextMessageContent
 from time import sleep
+from uuid import uuid4
+
 
 from backend.db_admins import get_admin_db
 from backend.db_chnls import reg_channels_db, update_shared_db, check_shared_db
 from backend.db_grps import get_groupinfo_db
-from backend.db_list import insert_list_db, reset_registrations_db
+from backend.db_list import insert_list_db, reset_registrations_db, get_list_db
 from backend.db_stats import get_next_list_num_db
 
 from common.com_bot_data import get_grps_list, get_admins_list
@@ -175,3 +179,45 @@ def delete_lists(update, context):
 		else:
 			update.message.reply_text(f'No one shared the lists in group ({get_groupinfo_db(grp).get("name", "")})')
 	reset_registrations_db(update.effective_user.id, admin_info['groups'])
+
+
+def inlinequery_inlne_ck( update, context ):
+	query = update.inline_query.query
+	results = []
+	try:
+		input= int(query.strip())
+		listinfo = get_list_db(input)
+		if listinfo:
+			# TODO Prep the markup using btn text and url got from DB
+			'''if 'photo' in listinfo:
+				results.append(InlineQueryResultCachedPhoto(
+					id=uuid4(),
+					title = listinfo['grpname'],
+					description = listinfo['grpname'],
+					photo_file_id = listinfo['photo'],
+					caption = listinfo.get('captions', ' '),
+					reply_markup = pickle.loads(listinfo['markup'])))'''
+			if 1:
+				results.append(InlineQueryResultArticle(
+					id = uuid4(),
+					title = listinfo['grpname'],
+					input_message_content = InputTextMessageContent(listinfo['text'], parse_mode = 'Markdown',
+					                                                disable_web_page_preview = True)
+				))
+		results.append(InlineQueryResultArticle(
+			id = uuid4(),
+			title = f"Just Books",
+			url = 't.me/ASM_Books_bot',
+			input_message_content = InputTextMessageContent('Download any books for free'
+			                                                '\n@ASM_Books_Bot')
+		))
+	except Exception as e:
+		results.append(InlineQueryResultArticle(
+			id = uuid4(),
+			title = f"Error",
+			#url = 't.me/ASM_Books_bot',
+			input_message_content = InputTextMessageContent(f"{e}")
+		))
+	finally:
+		update.inline_query.answer(results)
+		

@@ -1,6 +1,7 @@
-from telegram.ext import ConversationHandler, MessageHandler, CommandHandler, Filters, CallbackQueryHandler
+from telegram.ext import ConversationHandler, MessageHandler, CommandHandler, Filters, CallbackQueryHandler, \
+	InlineQueryHandler
 
-from admins.ad_lists import get_shared
+from admins.ad_lists import get_shared, inlinequery_inlne_ck
 from admins.ad_promo import start_regstr_promo, create_list_promo, delete_list_promo
 from admins.ad_register import register, getname, check_group, set_header, foottext, footurl, configure_ck, \
 	get_pre1_text, get_pre1_url, get_pre2_text, get_pre2_url, get_pre3_text, get_pre3_url, final_pre, add_group, \
@@ -13,7 +14,7 @@ from const.PROMO_CONSTS import CONFIRMDELETE, NAME, ADDG, HEADER, FOOTTEXT, FOOT
 from dev.dev_ins_admin import activate_pre_ck, get_userid_from_forwrd
 
 cancel_hndlr = CommandHandler('cancel', cancel)
-
+inline_hndlr = InlineQueryHandler(inlinequery_inlne_ck)
 promo_group_regstr_hndlr = ConversationHandler(
 	entry_points = [MessageHandler(Filters.regex('Register for PromoGroup Admins'), register)],
 	states = {
