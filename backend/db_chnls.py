@@ -62,6 +62,12 @@ def check_shared_db(chnlid, grpid):
 	return db[chnlid].find({'$and': [{'in group': grpid,
 	                                  'shared on': {'$ne': None},
 	                                  'msgid': {'$ne': None}}]})
+		
+		
+def check_unshared_db(chnlid, grpid):
+	return db[chnlid].find({'$and': [{'in group' : grpid,
+	                                  'shared on':  None,
+	                                  'msgid'    :  None}]})
 
 
 def get_chnl_db(chanid, adminid):

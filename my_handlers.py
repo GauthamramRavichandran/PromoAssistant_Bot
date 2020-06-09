@@ -1,7 +1,7 @@
 from telegram.ext import ConversationHandler, MessageHandler, CommandHandler, Filters, CallbackQueryHandler, \
 	InlineQueryHandler
 
-from admins.ad_lists import get_shared, inlinequery_inlne_ck
+from admins.ad_lists import get_shared, inlinequery_inlne_ck, get_unshared
 from admins.ad_promo import start_regstr_promo, create_list_promo, delete_list_promo
 from admins.ad_register import register, getname, check_group, set_header, foottext, footurl, configure_ck, \
 	get_pre1_text, get_pre1_url, get_pre2_text, get_pre2_url, get_pre3_text, get_pre3_url, final_pre, add_group, \
@@ -59,7 +59,8 @@ how_to_hndlr = MessageHandler(Filters.regex('.*How to$'), how_to)
 strt_promo_hndlr = MessageHandler(Filters.regex('^Open Registrations$'), start_regstr_promo)
 crt_promo_hndlr = MessageHandler(Filters.regex('^Create list$'), create_list_promo)
 dlt_promo_hndlr = MessageHandler(Filters.regex('^Delete list$'), delete_list_promo)
-shared_list_hndlr = CommandHandler('getshared', get_shared)
+shared_list_hndlr = CommandHandler('shared', get_shared)
+unshared_list_hndlr = CommandHandler('unshared', get_unshared)
 config_hndlr = CommandHandler('configure', configure_ck)
 stat_hndler = MessageHandler(Filters.regex('.*Statistics'), get_statistics)
 

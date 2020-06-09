@@ -9,7 +9,7 @@ from uuid import uuid4
 
 
 from backend.db_admins import get_admin_db
-from backend.db_chnls import reg_channels_db, update_shared_db, check_shared_db
+from backend.db_chnls import reg_channels_db, update_shared_db, check_shared_db, check_unshared_db
 from backend.db_grps import get_groupinfo_db
 from backend.db_list import insert_list_db, reset_registrations_db, get_list_db
 from backend.db_stats import get_next_list_num_db
@@ -158,7 +158,30 @@ def get_shared(update, context):
 		context.bot.send_message(text = 'OOPS! No one shared the list yet', chat_id = update.message.chat.id,
 		                        reply_to_message_id = update.message.message_id, parse_mode = 'Markdown')
 
-# TODO get unshared list and send to admin. this function deeltes only if shared
+
+def get_unshared(update, context):
+	if update.message.chat.type != 'supergroup':
+		update.message.reply_text('This command only works in supergroup')
+	elif update.effective_user.id not in get_admins_list(context):
+		update.message.reply_text('Only admins can do that')
+	elif update.message.chat_id not in get_grps_list(context):
+		update.message.reply_text('This group is not registered with us')
+	else:
+		grpid = update.message.chat_id
+		chnlid = get_groupinfo_db(grpid).get('channel id')
+		unshared_list = check_unshared_db(chnlid = chnlid, grpid = grpid)
+		if unshared_list:
+			unshared_str = '#unshared List ::\n\n'
+			for j in unshared_list:
+				unshared_str += f"[{j.get('name')}](https://t.me/{j.get('name')[1:]}/)"
+			if len(unshared_str) > 20:
+				context.bot.send_message(text = unshared_str, chat_id = update.message.chat.id,
+				                         reply_to_message_id = update.message.message_id, parse_mode = 'Markdown', disable_web_page_preview = True)
+				return
+		context.bot.send_message(text = 'OOPS! No one shared the list yet', chat_id = update.message.chat.id,
+		                        reply_to_message_id = update.message.message_id, parse_mode = 'Markdown')
+
+
 def delete_lists(update, context):
 	admin_info = get_admin_db(update.effective_user.id)
 	for grp in admin_info['groups']:
