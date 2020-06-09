@@ -31,12 +31,21 @@ def create_list_promo( update: Update, context ):
 	admin_info = get_admin_db(update.effective_user.id)
 	if not admin_info.get('groups', []):
 		update.effective_message.reply_text("You don't have any groups registered with us")
+	elif context.user_data.get('list created today', 0) >= 4:
+		update.effective_message.reply_text("You have reached the limit for list creation today.")
 	else:
-		if valid_create_list(admin_info['groups']):
+		# Removing this validation for now
+		if 1 or valid_create_list(admin_info['groups']):
 			update.effective_message.reply_text("Gimme a minute, I'm creating the lists for you")
 			if create_list(update, context):
 				change_grp_status_db(admin_info['groups'], STATUS.LIST_PUBLISHED)
+				if 'list created today' in context.user_data:
+					context.user_data['list created today'] += 1
+				else:
+					context.user_data['list created today'] = 1
+					
 				update.effective_message.reply_text("Shared the lists in channel")
+				
 			else:
 				update.effective_message.reply_text("We're facing some difficulties in creating the lists")
 		else:

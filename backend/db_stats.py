@@ -11,6 +11,18 @@ except:
 	pass
 
 
+'''def ins_ad_stat_db(admin_id):
+	db.statistics.insert_one({'_id': admin_id,
+	                          'List created today'})
+	
+	
+def update_ad_stat_db(admin_id, list: bool = None):
+	db.statistics.update_one({'_id': admin_id})
+	if list is not None:
+		db.statistics.update_one({'_id': admin_id},
+		                         {})'''
+	
+	
 def get_next_list_num_db():
 	return db.statistics.find_one_and_update({'_id': 0}, {'$inc': {'Total Lists Created': 1}},
 	                                         return_document = True)

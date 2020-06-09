@@ -3,7 +3,7 @@ from telegram.ext import ConversationHandler
 from telegram.utils.helpers import escape_markdown as e_m
 
 from backend.db_admins import get_temp_admin_db
-from backend.db_chnls import add_new_channel_db
+from backend.db_chnls import add_new_channel_db, get_chnl_db
 from backend.db_grps import get_groupinfo_db
 
 from common.com_bot_data import get_admins_list
@@ -16,7 +16,7 @@ from const.con_classes import ValidationError
 ''' f'\n\nFormat :: \n#new | @Chnlname | Description here | Invitelink here', '''
 
 
-def start_register_1(update, context):
+def start_all_ck(update, context):
 	if update.message.chat.type == 'supergroup':
 		update.message.reply_text(f'{context.bot.link}?start={update.message.chat.id}')
 		return -1
@@ -30,16 +30,13 @@ def start_register_1(update, context):
 		except:
 			update.message.reply_text('Invalid Link')
 			return cancel(update, context)
-		'''my_chnls = get_chnl_db(chanid = context.user_data['promochnid'], adminid = update.message.chat.id)
+		my_chnls = get_chnl_db(chanid = context.user_data['promochnid'], adminid = update.message.chat.id)
 		chnl_btn = []
 		for chnl in my_chnls:
 			chnl_btn.append([InlineKeyboardButton(f"{chnl['name']}", callback_data = f"c_{chnl['_id']}")])
 		chnl_btn.append([InlineKeyboardButton("Add New Channel", callback_data = "new")])
-		update.message.reply_text("Select an option,", reply_markup = InlineKeyboardMarkup(chnl_btn))'''
-		update.message.reply_text(f'To submit your channel to {context.user_data["grpname"]} ,'
-		                          f'\nForward me a post from your channel', reply_markup = cancel_markup)
-		return FORWARD
-	
+		update.message.reply_text("Select an option,", reply_markup = InlineKeyboardMarkup(chnl_btn))
+		
 	else:
 		if update.effective_user.id in get_admins_list(context):
 			update.effective_message.reply_text(f"Hey there, {update.effective_user.first_name}", reply_markup = kb_admins_markup)
@@ -53,6 +50,11 @@ def start_register_1(update, context):
 			                                    reply_markup = contact_us_markup, parse_mode = 'Markdown')
 			
 			
+def start_register_1( update, context ):
+	update.message.reply_text(f'To submit your channel to {context.user_data["grpname"]} ,'
+	                          f'\nForward me a post from your channel', reply_markup = cancel_markup)
+	return FORWARD
+	
 def start_register_2(update, context):
 	try:
 		if update.message.forward_from_chat.type != 'channel':

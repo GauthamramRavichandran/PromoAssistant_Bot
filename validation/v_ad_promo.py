@@ -11,7 +11,7 @@ def valid_open_regstr(grps: list):
 
 def valid_create_list(grps: list):
 	for grp in grps:
-		if get_groupinfo_db(grp)['status'] in (STATUS.LIST_PUBLISHED, STATUS.LIST_DELETED, STATUS.NEW):
+		if get_groupinfo_db(grp)['status'] in (STATUS.NEW):
 			return False
 	return True
 

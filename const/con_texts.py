@@ -5,10 +5,11 @@ new_pin_tx = f'''
 		{e_tada}{e_tada}{e_tada}
 
 	Registrations has started
+  This is one-time registration
   Rules,
     1. Channel should be public
     2. Description should be lesser than {DESCR_LIMIT}
-
+  
   Register your channel using the below link,'''
 
 new_button_pin_tx = f'''
