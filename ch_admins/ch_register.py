@@ -2,7 +2,6 @@ from telegram import ParseMode, InlineKeyboardButton, InlineKeyboardMarkup
 from telegram.ext import ConversationHandler
 from telegram.utils.helpers import escape_markdown as e_m
 
-from backend.db_admins import get_temp_admin_db
 from backend.db_chnls import add_new_channel_db, get_chnl_db
 from backend.db_grps import get_groupinfo_db
 
@@ -40,14 +39,8 @@ def start_all_ck(update, context):
 	else:
 		if update.effective_user.id in get_admins_list(context):
 			update.effective_message.reply_text(f"Hey there, {update.effective_user.first_name}", reply_markup = kb_admins_markup)
-		elif get_temp_admin_db(update.effective_user.id):
-			context.bot.send_message(text = "Hi! I'm your PromoAssistant\nI can help the admins of promogroup",
-		                           chat_id = update.message.chat.id, reply_markup = kbmenu_default_markup)
 		else:
-			update.effective_message.reply_text("We currently allow only *selected candidates* to be registered."
-			                                    "\nContact the developer if you have promogroup"
-			                                    "\n\nPS. If you don't know what is a promogroup, then kindly *donot* contact us",
-			                                    reply_markup = contact_us_markup, parse_mode = 'Markdown')
+			update.effective_message.reply_text(f"Hey there, {update.effective_user.first_name}", reply_markup = kbmenu_default_markup)
 			
 			
 def start_register_1( update, context ):
