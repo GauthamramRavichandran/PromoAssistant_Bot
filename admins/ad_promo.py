@@ -31,8 +31,8 @@ def create_list_promo( update: Update, context ):
 	admin_info = get_admin_db(update.effective_user.id)
 	if not admin_info.get('groups', []):
 		update.effective_message.reply_text("You don't have any groups registered with us")
-	elif context.user_data.get('list created today', 0) >= 4:
-		update.effective_message.reply_text("You have reached the limit for list creation today.")
+		"""elif context.user_data.get('list created today', 0) >= 4:
+		update.effective_message.reply_text("You have reached the limit for list creation today.")"""
 	else:
 		# Removing this validation for now
 		if 1 or valid_create_list(admin_info['groups']):

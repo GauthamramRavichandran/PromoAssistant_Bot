@@ -25,7 +25,6 @@ promo_group_regstr_hndlr = ConversationHandler(
 		FOOTURL: [MessageHandler(Filters.text & (~Filters.command), footurl)]
 	},
 	fallbacks = [cancel_hndlr],
-	allow_reentry = True,
 	persistent = True,
 	name = 'promogroup register'
 )
@@ -50,7 +49,6 @@ settings_hndlr = ConversationHandler(
 		PRE3_URL: [MessageHandler(Filters.text & (~ Filters.command), final_pre)]
 	},
 	fallbacks=[cancel_hndlr],
-	allow_reentry=True,
 	persistent = True,
 	name = 'settings conv.'
 )
@@ -72,17 +70,7 @@ chnl_admin_registr_hndlr = ConversationHandler(
 		CONFIRM: [CallbackQueryHandler(start_register_4)]
 	},
 	fallbacks = [cancel_hndlr],
-	allow_reentry = True,
 	persistent = True,
 	name = 'channel register conv.'
 )
 
-ins_premium_conv_hndlr = ConversationHandler(
-	entry_points = [CommandHandler('insert', get_userid_from_forwrd)],
-	states = {
-		FORWARD : [MessageHandler(Filters.forwarded, activate_pre_ck)]
-	},
-	fallbacks = [cancel_hndlr],
-	allow_reentry = True,
-	persistent = True,
-	name = 'Premium conv.')
