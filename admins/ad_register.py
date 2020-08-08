@@ -2,9 +2,9 @@ from re import search
 from telegram import ReplyKeyboardRemove, MessageEntity, KeyboardButton, ReplyKeyboardMarkup
 from telegram.ext import ConversationHandler
 
-from backend.db_admins import insert_admin_db, get_admin_db, del_temp_admin_db
+from backend.db_admins import insert_admin_db, get_admin_db
 from backend.db_grps import update_groups_db, get_groupinfo_db
-from backend.db_admins import insert_premium_chnls_db, get_temp_admin_db
+from backend.db_admins import insert_premium_chnls_db
 
 from common.com_bot_data import get_admins_list, get_chnls_list, append_admins, append_chnl, \
 	get_grps_list, append_grps
@@ -26,11 +26,6 @@ def register(update, context):
 		                          f'{e_info}PS. If you send "Reset All", everything will be deleted, '
 		                          f'no confirmations will be asked', reply_markup=reset_markup)
 		return CONFIRMDELETE
-	elif get_temp_admin_db(update.effective_user.id) is None:
-		update.effective_message.reply_text("We currently allow only selected candidates to be registered."
-		                                    "\nContact the developer if you have promogroup",
-		                                    reply_markup = contact_us_markup, parse_mode = 'Markdown')
-		return ConversationHandler.END
 	update.message.reply_text('We can begin the registration process right away. '
 	                          '\nHang tight! This is a bit lengthy process and one-time setup')
 	context.bot.send_message(text = e_info+'Forward a message/post from your promotions channel'
