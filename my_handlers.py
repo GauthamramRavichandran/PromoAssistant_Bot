@@ -11,7 +11,6 @@ from common.com_callbacks import cancel, how_to, get_statistics
 from const.PROMO_CONSTS import CONFIRMDELETE, NAME, ADDG, HEADER, FOOTTEXT, FOOTURL, CONFIRM, DESCR, FORWARD, PRE1_TEXT, \
 	PRE1_URL, PRE2_TEXT, PRE2_URL, PRE3_TEXT, PRE3_URL, CHOICE, SELECT_GROUP
 
-from dev.dev_ins_admin import activate_pre_ck, get_userid_from_forwrd
 
 cancel_hndlr = CommandHandler('cancel', cancel)
 inline_hndlr = InlineQueryHandler(inlinequery_inlne_ck)

@@ -1,7 +1,6 @@
 from telegram import Bot
 from telegram.utils.helpers import escape_markdown as e_m
 
-from backend.db_admins import get_temp_admin_db
 from backend.db_stats import get_stat_db
 from const.CONFIG import LOG_BOT_TKN, LOG_CHNL, SUPPORT_USERNAME
 from common.com_decorators import nogroup
@@ -17,13 +16,15 @@ def menu(update, context):
 			
 			context.bot.send_message(chat_id = update.effective_user.id, text = "Menu",
 			                         reply_markup = kb_admins_markup)
-		elif get_temp_admin_db(update.effective_user.id):
+		else:
+			update.effective_message.reply_text("Menu", reply_markup = kbmenu_default_markup)
+		"""elif get_temp_admin_db(update.effective_user.id):
 			update.effective_message.reply_text('Complete the registration first to get the Menu')
 		else:
 			update.effective_message.reply_text("We currently allow only *selected candidates* to be registered."
 			                                    "\nContact the developer if you have promogroup"
 			                                    "\n\nPS. If you don't know what is a promogroup, then kindly *donot* contact us",
-			                                    reply_markup = contact_us_markup, parse_mode = 'Markdown')
+			                                    reply_markup = contact_us_markup, parse_mode = 'Markdown')"""
 	
 	except Exception as e:
 		print(str(e))
