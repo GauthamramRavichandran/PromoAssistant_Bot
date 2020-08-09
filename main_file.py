@@ -10,15 +10,15 @@ from const.con_classes import MQBot
 from const.CONFIG import PROMO_BOT_TKN, SERVER_IP_ADDR, PORT_NUM, NAME_OF_PEM_FILE, WEBHOOK_URL
 from my_handlers import promo_group_regstr_hndlr, cancel_hndlr, chnl_admin_registr_hndlr, config_hndlr, crt_promo_hndlr, \
 	dlt_promo_hndlr, settings_hndlr, shared_list_hndlr, strt_promo_hndlr, how_to_hndlr, stat_hndler, \
-	inline_hndlr, unshared_list_hndlr
+	inline_hndlr, unshared_list_hndlr, remove_chnl_hndlr
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.ERROR, filename = 'logs.log')
 
 logger = logging.getLogger(__name__)
-handlers_to_add = [promo_group_regstr_hndlr, settings_hndlr, cancel_hndlr, dlt_promo_hndlr,
+handlers_to_add = [promo_group_regstr_hndlr, settings_hndlr, dlt_promo_hndlr,
                    chnl_admin_registr_hndlr, config_hndlr, crt_promo_hndlr, shared_list_hndlr, strt_promo_hndlr,
-                   how_to_hndlr, stat_hndler, inline_hndlr, unshared_list_hndlr]
+                   how_to_hndlr, stat_hndler, inline_hndlr, unshared_list_hndlr, remove_chnl_hndlr, cancel_hndlr]
 
 
 def main():
@@ -37,6 +37,7 @@ def main():
 	# Exceptional Case #
 	# dispatcher.add_handler(MessageHandler(Filters.text, exceptional))
 	updater.bot.set_my_commands([BotCommand('start', 'start the bot'),
+	                             BotCommand('remove', 'remove a channel'),
 	                             BotCommand('shared', '#shared of current promo'),
 	                             BotCommand('unshared', '#unshared of current promo'),
 	                             BotCommand('configure', 'get the grpid'),

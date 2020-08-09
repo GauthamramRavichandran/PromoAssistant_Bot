@@ -2,6 +2,7 @@ from telegram.ext import ConversationHandler, MessageHandler, CommandHandler, Fi
 	InlineQueryHandler
 
 from admins.ad_lists import get_shared, inlinequery_inlne_ck, get_unshared
+from admins.ad_misc import remove_channel
 from admins.ad_promo import start_regstr_promo, create_list_promo, delete_list_promo
 from admins.ad_register import register, getname, check_group, set_header, foottext, footurl, configure_ck, \
 	get_pre1_text, get_pre1_url, get_pre2_text, get_pre2_url, get_pre3_text, get_pre3_url, final_pre, add_group, \
@@ -72,4 +73,5 @@ chnl_admin_registr_hndlr = ConversationHandler(
 	persistent = True,
 	name = 'channel register conv.'
 )
+remove_chnl_hndlr = CommandHandler('remove', remove_channel)
 

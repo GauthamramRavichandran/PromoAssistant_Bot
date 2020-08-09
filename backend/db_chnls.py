@@ -29,11 +29,17 @@ def add_new_channel_db(chnlid, chnlname, memcount, adminid, ingroup, descr=None,
 		print(e)
 
 
-def remove_channel_db(groupid, chnl_name):
+def remove_channel_db(groupid = None, chnl_id = None, chnl_name = None, rem_chnl_id = None):
 	try:
-		chanid = db.groups.find_one({'_id': groupid}).get('channel id')
+		if groupid:
+			chanid = db.groups.find_one({'_id': groupid}).get('channel id')
+		elif chnl_id:
+			chanid = chnl_id
 		coll = db[chanid]
-		coll.delete_many({'name': str(chnl_name)})
+		if chnl_name:
+			coll.delete_many({'name': str(chnl_name)})
+		elif rem_chnl_id:
+			coll.delete_many({'_id': rem_chnl_id})
 		db.statistics.update_one({'_id': 0},
 		                         {'$inc': {'Total Channels Registered' : -1}})
 	except Exception as e:
