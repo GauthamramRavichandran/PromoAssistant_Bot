@@ -7,10 +7,10 @@ from admins.ad_promo import start_regstr_promo, create_list_promo, delete_list_p
 from admins.ad_register import register, getname, check_group, set_header, foottext, footurl, configure_ck, \
 	get_pre1_text, get_pre1_url, get_pre2_text, get_pre2_url, get_pre3_text, get_pre3_url, final_pre, add_group, \
 	group_commands, settings, get_group
-from ch_admins.ch_register import start_all_ck, start_register_2, start_register_3, start_register_4
+from ch_admins.ch_register import start_all_ck, start_register_2, start_register_3, start_register_4, start_register_1
 from common.com_callbacks import cancel, how_to, get_statistics
 from const.PROMO_CONSTS import CONFIRMDELETE, NAME, ADDG, HEADER, FOOTTEXT, FOOTURL, CONFIRM, DESCR, FORWARD, PRE1_TEXT, \
-	PRE1_URL, PRE2_TEXT, PRE2_URL, PRE3_TEXT, PRE3_URL, CHOICE, SELECT_GROUP
+	PRE1_URL, PRE2_TEXT, PRE2_URL, PRE3_TEXT, PRE3_URL, CHOICE, SELECT_GROUP, CHANNEL
 
 
 cancel_hndlr = CommandHandler('cancel', cancel)
@@ -65,8 +65,8 @@ stat_hndler = MessageHandler(Filters.regex('.*Statistics'), get_statistics)
 chnl_admin_registr_hndlr = ConversationHandler(
 	entry_points = [CommandHandler('start', start_all_ck)],
 	states = {
-		FORWARD: [MessageHandler(Filters.forwarded, start_register_2),
-		          CallbackQueryHandler(start_register_2)],
+		CHANNEL: [CallbackQueryHandler(start_register_1)],
+		FORWARD: [MessageHandler(Filters.forwarded, start_register_2)],
 		DESCR: [MessageHandler(Filters.text & (~ Filters.command), start_register_3)],
 		CONFIRM: [CallbackQueryHandler(start_register_4)]
 	},
