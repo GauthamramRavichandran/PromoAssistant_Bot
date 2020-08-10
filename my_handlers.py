@@ -65,7 +65,8 @@ stat_hndler = MessageHandler(Filters.regex('.*Statistics'), get_statistics)
 chnl_admin_registr_hndlr = ConversationHandler(
 	entry_points = [CommandHandler('start', start_all_ck)],
 	states = {
-		FORWARD: [MessageHandler(Filters.forwarded, start_register_2)],
+		FORWARD: [MessageHandler(Filters.forwarded, start_register_2),
+		          CallbackQueryHandler(start_register_2)],
 		DESCR: [MessageHandler(Filters.text & (~ Filters.command), start_register_3)],
 		CONFIRM: [CallbackQueryHandler(start_register_4)]
 	},

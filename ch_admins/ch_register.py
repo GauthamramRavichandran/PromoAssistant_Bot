@@ -44,9 +44,19 @@ def start_all_ck(update, context):
 			
 			
 def start_register_1( update, context ):
-	update.message.reply_text(f'To submit your channel to {context.user_data["grpname"]} ,'
-	                          f'\nForward me a post from your channel', reply_markup = cancel_markup)
-	return FORWARD
+	try:  # Just In case, if the message doesn't contain replymk or callback_query is not present
+		update.callback_query.edit_message_reply_markup(reply_markup = None)
+	except:
+		pass
+	data = update.callback_query.data
+	if data == "new":
+		update.effective_message.reply_text(f'To submit your channel to {context.user_data["grpname"]} ,'
+		                                    f'\nForward me a post from your channel', reply_markup = cancel_markup)
+		return FORWARD
+	else:
+		update.effective_message.reply_text("You can only add new chnls at the moment")
+		return -1
+	
 	
 def start_register_2(update, context):
 	try:
