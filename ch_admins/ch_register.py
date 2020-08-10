@@ -9,7 +9,7 @@ from common.com_bot_data import get_admins_list
 from common.com_callbacks import cancel
 from common.com_kb_mks import confirm_mk, cancel_markup, kbmenu_default_markup, kb_admins_markup, contact_us_markup
 from const.CONFIG import MY_ID, DESCR_LIMIT
-from const.PROMO_CONSTS import DESCR, CONFIRM, FORWARD
+from const.PROMO_CONSTS import DESCR, CONFIRM, FORWARD, CHANNEL
 from const.con_my_emojis import e_trophy
 from const.con_classes import ValidationError
 ''' f'\n\nFormat :: \n#new | @Chnlname | Description here | Invitelink here', '''
@@ -35,7 +35,7 @@ def start_all_ck(update, context):
 			chnl_btn.append([InlineKeyboardButton(f"{chnl['name']}", callback_data = f"c_{chnl['_id']}")])
 		chnl_btn.append([InlineKeyboardButton("Add New Channel", callback_data = "new")])
 		update.message.reply_text("Select an option,", reply_markup = InlineKeyboardMarkup(chnl_btn))
-		return FORWARD
+		return CHANNEL
 	else:
 		if update.effective_user.id in get_admins_list(context):
 			update.effective_message.reply_text(f"Hey there, {update.effective_user.first_name}", reply_markup = kb_admins_markup)
