@@ -35,7 +35,7 @@ def start_all_ck(update, context):
 			chnl_btn.append([InlineKeyboardButton(f"{chnl['name']}", callback_data = f"c_{chnl['_id']}")])
 		chnl_btn.append([InlineKeyboardButton("Add New Channel", callback_data = "new")])
 		update.message.reply_text("Select an option,", reply_markup = InlineKeyboardMarkup(chnl_btn))
-		
+		return FORWARD
 	else:
 		if update.effective_user.id in get_admins_list(context):
 			update.effective_message.reply_text(f"Hey there, {update.effective_user.first_name}", reply_markup = kb_admins_markup)
