@@ -11,8 +11,6 @@ Manage the lists in Promotions channel
 .. image:: https://img.shields.io/badge/via-PyCharm%20CE-brightgreen
       :target: https://www.jetbrains.com/pycharm/           
       
-.. image:: https://img.shields.io/badge/Hosted%20on-DigitalOcean-blue
-      :target: https://digitalocean.com
       
 
 Dependencies
@@ -41,4 +39,3 @@ How to host the bot
 
  **Special Thanks** to `python-telegram-bot <https://github.com/python-telegram-bot/python-telegram-bot>`_ and `pymongo <https://pypi.org/project/pymongo/>`_
 
-  Signup on `DigitalOcean <https://m.do.co/c/2a17d8f27c06>`_ and get free $100 credit
