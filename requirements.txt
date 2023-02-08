@@ -1,6 +1,6 @@
 certifi==2022.12.7
 cffi==1.14.0
-cryptography==3.3.2
+cryptography==39.0.1
 decorator==4.4.2
 emoji==0.5.4
 future==0.18.2
